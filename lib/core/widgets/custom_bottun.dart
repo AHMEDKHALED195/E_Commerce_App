@@ -1,0 +1,25 @@
+import 'package:e_commerce_app/core/utiles/app_colors.dart';
+import 'package:flutter/material.dart';
+
+class CustomBottun extends StatelessWidget {
+  const CustomBottun({super.key, required this.onPressed, required this.text});
+  final VoidCallback onPressed;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 54,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          backgroundColor: AppColors.primaryColor,
+        ),
+        onPressed: onPressed,
+        child: Text(text, style: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+}
