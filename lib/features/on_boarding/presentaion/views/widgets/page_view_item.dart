@@ -1,3 +1,6 @@
+import 'package:e_commerce_app/core/services/shared_prefrences_singelton.dart';
+import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
+import 'package:e_commerce_app/features/auth/presentaion/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -8,12 +11,14 @@ class PageViewItem extends StatelessWidget {
     required this.backgroundImage,
     required this.title,
     required this.subTitle,
+    required this.isvisible,
   });
 
   final String image;
   final String backgroundImage;
   final Widget title;
   final String subTitle;
+  final bool isvisible;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +37,27 @@ class PageViewItem extends StatelessWidget {
                 bottom: 0,
                 child: SvgPicture.asset(image),
               ),
-              Padding(padding: const EdgeInsets.all(16.0), child: Text('تخط')),
+              Visibility(
+                visible: isvisible,
+                child: GestureDetector(
+                  onTap: () {
+                    Prefs.setBool('kIsOnBoardingViewSeen', true);
+                    Navigator.of(
+                      context,
+                    ).pushReplacementNamed(LoginView.routeName);
+                    // Navigate to login or home screen
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'تخط',
+                      style: TextStyles.regular13.copyWith(
+                        color: const Color(0xFF949D9E),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -40,8 +65,16 @@ class PageViewItem extends StatelessWidget {
         title,
         SizedBox(height: 24),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(subTitle, textAlign: TextAlign.center),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+          child: Text(
+            subTitle,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyles.semiBold13.copyWith(
+              color: const Color(0xFF4E5456),
+            ),
+          ),
         ),
       ],
     );
