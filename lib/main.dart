@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/helper_functions/on_generate_rout.dart';
 import 'package:e_commerce_app/core/services/shared_prefrences_singelton.dart';
+import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/features/splash/presentation/views/splash_view.dart';
 import 'package:e_commerce_app/generated/l10n.dart';
 
@@ -18,7 +19,10 @@ class FruitHup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Cairo'),
+      theme: ThemeData(
+        fontFamily: 'Cairo',
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+      ),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
