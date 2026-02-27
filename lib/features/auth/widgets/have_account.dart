@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
-import 'package:e_commerce_app/features/auth/presentaion/views/signup_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
