@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/helper_functions/on_generate_rout.dart';
+import 'package:e_commerce_app/core/services/git_it_services.dart';
 import 'package:e_commerce_app/core/services/shared_prefrences_singelton.dart';
 import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/features/splash/presentation/views/splash_view.dart';
@@ -9,11 +10,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Prefs.init();
+  setup();
   runApp(const FruitHup());
 }
 

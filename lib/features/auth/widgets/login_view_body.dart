@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:e_commerce_app/features/auth/widgets/dont_have_an_account_widget.dart';
 
 class LoginViewBody extends StatelessWidget {
-  const LoginViewBody({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  LoginViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
