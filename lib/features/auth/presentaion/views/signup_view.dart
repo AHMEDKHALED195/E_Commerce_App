@@ -30,7 +30,6 @@ class SignupView extends StatelessWidget {
                   Navigator.pop(context);
                 }
                 if (state is SignupFailure) {
-                  print(state.message);
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(state.message)));

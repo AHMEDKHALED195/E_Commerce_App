@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class CustomFormTextField extends StatelessWidget {
   const CustomFormTextField({
+    this.obscureText = false,
     super.key,
     required this.hintText,
     required this.keyboardType,
     this.icon,
     this.onSaved,
   });
+  final bool obscureText;
   final String hintText;
   final TextInputType keyboardType;
   final Widget? icon;
@@ -16,6 +18,7 @@ class CustomFormTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       onSaved: onSaved,
       validator: (value) {
         if (value == null || value.isEmpty) {
