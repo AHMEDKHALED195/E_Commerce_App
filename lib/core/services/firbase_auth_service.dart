@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:e_commerce_app/core/errors/exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
@@ -107,6 +108,30 @@ class FirebaseAuthService {
       return userCredential.user!;
     } catch (e) {
       throw CustomExceptions(message: 'Google Sign-In Failed');
+    }
+  }
+
+  Future<User> signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status != LoginStatus.success) {
+        throw CustomExceptions(message: 'تم إلغاء تسجيل الدخول');
+      }
+
+      final accessToken = result.accessToken!.tokenString;
+
+      final OAuthCredential credential = FacebookAuthProvider.credential(
+        accessToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+
+      return userCredential.user!;
+    } catch (e) {
+      throw CustomExceptions(message: 'فشل تسجيل الدخول بفيسبوك');
     }
   }
 }

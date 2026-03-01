@@ -46,6 +46,7 @@ flutter {
     source = "../.."
 }
 dependencies {
+     implementation("com.facebook.android:facebook-login:latest.release")
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-auth")
 }
