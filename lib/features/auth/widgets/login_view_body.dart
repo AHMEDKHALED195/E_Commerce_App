@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:e_commerce_app/constants.dart';
 import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/core/utiles/app_images.dart';
@@ -90,12 +92,18 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 },
               ),
               SizedBox(height: 20),
-              SocialLoginButton(
-                title: 'تسجيل بواسطة أبل',
-                iconPath: Assets.imagesAppleIcon,
-                onPressed: () {},
-              ),
-              SizedBox(height: 20),
+              Platform.isIOS
+                  ? Column(
+                      children: [
+                        SocialLoginButton(
+                          title: 'تسجيل بواسطة أبل',
+                          iconPath: Assets.imagesAppleIcon,
+                          onPressed: () {},
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    )
+                  : SizedBox(),
               SocialLoginButton(
                 title: 'تسجيل بواسطة فيسبوك',
                 iconPath: Assets.imagesFacebookIcon,
