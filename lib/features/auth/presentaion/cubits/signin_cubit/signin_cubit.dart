@@ -12,7 +12,7 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     emit(SigninLoading());
-    final failureOrUser = await authRepo.signInWithEmailAndPassword(
+    final failureOrUser = await authRepo.signinWithEmailAndPassword(
       email,
       password,
     );
@@ -24,7 +24,7 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future<void> signInWithGoogle() async {
     emit(SigninLoading());
-    final failureOrUser = await authRepo.signInWithGoogle();
+    final failureOrUser = await authRepo.signinWithGoogle();
     return failureOrUser.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (use) => emit(SigninSuccess(userEntity: use)),
@@ -33,7 +33,7 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future<void> signInWithFacebook() async {
     emit(SigninLoading());
-    final failureOrUser = await authRepo.signInWithFacebook();
+    final failureOrUser = await authRepo.signinWithFacebook();
     return failureOrUser.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (use) => emit(SigninSuccess(userEntity: use)),

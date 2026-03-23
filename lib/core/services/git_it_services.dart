@@ -9,10 +9,10 @@ final gitIt = GetIt.instance;
 
 void setup() async {
   gitIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
-  gitIt.registerSingleton<DatabaseService>(FirestoreService());
+  gitIt.registerSingleton<DatabaseService>(FireStoreService());
   gitIt.registerSingleton<AuthRepo>(
     AuthRepoImpl(
-      fireBaseAuth: gitIt<FirebaseAuthService>(),
+      firebaseAuthService: gitIt<FirebaseAuthService>(),
       databaseService: gitIt<DatabaseService>(),
     ),
   );

@@ -11,11 +11,14 @@ import 'package:e_commerce_app/features/auth/domain/entites/user_entity.dart';
 import 'package:e_commerce_app/features/auth/domain/repos/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthRepoImpl implements AuthRepo {
-  final FirebaseAuthService fireBaseAuth;
+class AuthRepoImpl extends AuthRepo {
+  final FirebaseAuthService firebaseAuthService;
   final DatabaseService databaseService;
 
-  AuthRepoImpl({required this.fireBaseAuth, required this.databaseService});
+  AuthRepoImpl({
+    required this.databaseService,
+    required this.firebaseAuthService,
+  });
   @override
   Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword(
     String email,
@@ -24,7 +27,7 @@ class AuthRepoImpl implements AuthRepo {
   ) async {
     User? user;
     try {
-      user = await fireBaseAuth.createUserWithEmailAndPassword(
+      user = await firebaseAuthService.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -33,82 +36,131 @@ class AuthRepoImpl implements AuthRepo {
         uId: user.uid,
         displayName: name,
       );
-      await addUserData(userEntity: userEntity);
-      return Right(userEntity);
+      await addUserData(user: userEntity);
+      return right(userEntity);
     } on CustomExceptions catch (e) {
-      if (user != null) {
-        await fireBaseAuth.deleteUser();
-      }
+      await deleteUser(user);
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      await deleteUser(user);
       log(
-        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.message}',
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return Left(ServerFailure(e.message));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+    }
+  }
+
+  Future<void> deleteUser(User? user) async {
+    if (user != null) {
+      await firebaseAuthService.deleteUser();
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(
+  Future<Either<Failure, UserEntity>> signinWithEmailAndPassword(
     String email,
     String password,
   ) async {
     try {
-      var user = await fireBaseAuth.signInWithEmailAndPassword(
+      var user = await firebaseAuthService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return Right(UserModel.fromFirebaseUser(user));
+      var userEntity = await getUserData(uid: user.uid);
+      // await saveUserData(user: userEntity);
+      return right(userEntity);
     } on CustomExceptions catch (e) {
-      log('Exception in AuthRepoImpl.signInWithEmailAndPassword: ${e.message}');
-      return Left(ServerFailure(e.message));
+      return left(ServerFailure(e.message));
     } catch (e) {
       log(
-        'Exception in AuthRepoImpl.signInWithEmailAndPassword: ${e.toString()}',
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return Left(ServerFailure('لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+  Future<Either<Failure, UserEntity>> signinWithGoogle() async {
+    User? user;
     try {
-      var user = await fireBaseAuth.signInWithGoogle();
-      return Right(UserModel.fromFirebaseUser(user));
-    } on CustomExceptions catch (e) {
-      log('Exception in AuthRepoImpl.signInWithGoogle: ${e.message}');
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      log('Exception in AuthRepoImpl.signInWithGoogle: ${e.toString()}');
-      return Left(ServerFailure('لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
-    }
-  }
+      user = await firebaseAuthService.signInWithGoogle();
 
-  @override
-  Future<Either<Failure, UserEntity>> signInWithFacebook() async {
-    try {
-      var user = await fireBaseAuth.signInWithFacebook();
-      return Right(UserModel.fromFirebaseUser(user));
-    } on CustomExceptions catch (e) {
-      log('Exception in AuthRepoImpl.signInWithFacebook: ${e.message}');
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      log('Exception in AuthRepoImpl.signInWithFacebook: ${e.toString()}');
-      return Left(ServerFailure('لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
-    }
-  }
-
-  @override
-  Future<dynamic> addUserData({required UserEntity userEntity}) async {
-    try {
-      await databaseService.addData(
-        path: BackendEndpoint.addUserData,
-        data: userEntity.toMap(),
+      var userEntity = UserModel.fromFirebaseUser(user);
+      var isUserExist = await databaseService.checkIfDataExists(
+        path: BackendEndpoint.isUserExists,
+        docuementId: user.uid,
       );
-    } on CustomExceptions catch (e) {
-      log('Exception in AuthRepoImpl.addUserData: ${e.message}');
-      return Left(ServerFailure(e.message));
+      if (isUserExist) {
+        await getUserData(uid: user.uid);
+      } else {
+        await addUserData(user: userEntity);
+      }
+      return right(userEntity);
     } catch (e) {
-      log('Exception in AuthRepoImpl.addUserData: ${e.toString()}');
-      return Left(ServerFailure('لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      await deleteUser(user);
+      log(
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
+      );
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signinWithFacebook() async {
+    User? user;
+    try {
+      user = await firebaseAuthService.signInWithFacebook();
+      var userEntity = UserModel.fromFirebaseUser(user);
+      await addUserData(user: userEntity);
+      return right(userEntity);
+    } catch (e) {
+      await deleteUser(user);
+      log(
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
+      );
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+    }
+  }
+
+  // @override
+  // Future<Either<Failure, UserEntity>> signInWithApple() async {
+  //   User? user;
+  //   try {
+  //     user = await firebaseAuthService.signInWithApple();
+
+  //     var userEntity = UserModel.fromFirebaseUser(user);
+  //     await addUserData(user: userEntity);
+  //     return right(userEntity);
+  //   } catch (e) {
+  //     await deleteUser(user);
+  //     log(
+  //       'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
+  //     );
+  //     return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+  //   }
+  // }
+
+  @override
+  Future addUserData({required UserEntity user}) async {
+    await databaseService.addData(
+      path: BackendEndpoint.addUserData,
+      data: UserModel.fromEntity(user).toMap(),
+      documentId: user.uId,
+    );
+  }
+
+  @override
+  Future<UserEntity> getUserData({required String uid}) async {
+    var userData = await databaseService.getData(
+      path: BackendEndpoint.getUsersData,
+      docuementId: uid,
+    );
+    return UserModel.fromJson(userData);
+  }
+
+  @override
+  Future saveUserData({required UserEntity user}) async {
+    // var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
+    // await Prefs.setString(kUserData, jsonData);
   }
 }
