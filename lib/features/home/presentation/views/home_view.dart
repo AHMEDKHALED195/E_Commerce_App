@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/home/presentation/views/widgets/home_view_body.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
@@ -6,6 +7,6 @@ class HomeView extends StatelessWidget {
   static const String routeName = 'home';
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(home: Ho);
+    return Scaffold(body: SafeArea(child: HomeViewBody()));
   }
 }
