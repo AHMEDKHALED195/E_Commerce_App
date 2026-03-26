@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/features/home/presentation/views/widgets/besr_sellind_header.dart';
+import 'package:e_commerce_app/features/home/presentation/views/widgets/best_selling_grid_view.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/custom_home_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/featured_list.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/search_text_field.dart';
@@ -8,11 +10,11 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: const CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          sliver: SliverToBoxAdapter(
             child: Column(
               children: [
                 SizedBox(height: 16),
@@ -22,11 +24,17 @@ class HomeViewBody extends StatelessWidget {
                 SizedBox(height: 12),
                 FeaturedList(),
                 SizedBox(height: 12),
+                BestSellingHeader(),
+                SizedBox(height: 12),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          sliver: BestSellingGridView(),
+        ),
+      ],
     );
   }
 }
