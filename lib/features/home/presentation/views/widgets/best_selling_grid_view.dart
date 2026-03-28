@@ -6,10 +6,15 @@ class BestSellingGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.sizeOf(context).width;
+    var itemWidth = width / 2;
+    var itemHeight = itemWidth * 0.8;
+
     return SliverGrid.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      itemCount: 10,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 163 / 214,
+        childAspectRatio: (itemWidth / itemHeight),
         mainAxisSpacing: 8,
         crossAxisSpacing: 16,
       ),
