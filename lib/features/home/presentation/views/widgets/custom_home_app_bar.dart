@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
+import 'package:e_commerce_app/core/widgets/notification_widget.dart';
 import 'package:flutter/material.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
@@ -13,17 +14,7 @@ class CustomHomeAppBar extends StatelessWidget {
         style: TextStyles.regular16.copyWith(color: Color(0xFF949D9E)),
       ),
       subtitle: Text('محمد علي', style: TextStyles.bold16),
-      trailing: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF4F4F4),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Icon(
-          Icons.notifications_none_outlined,
-          color: Color(0xFF949D9E),
-        ),
-      ),
+      trailing: NotificationWidget(),
     );
   }
 }

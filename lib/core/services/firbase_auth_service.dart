@@ -134,4 +134,8 @@ class FirebaseAuthService {
       throw CustomExceptions(message: 'فشل تسجيل الدخول بفيسبوك');
     }
   }
+
+  bool isUserLoggedIn() {
+    return FirebaseAuth.instance.currentUser != null;
+  }
 }
