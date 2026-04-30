@@ -138,4 +138,9 @@ class FirebaseAuthService {
   bool isUserLoggedIn() {
     return FirebaseAuth.instance.currentUser != null;
   }
+
+  Future<void> signOut() async {
+    await _googleSignIn.signOut();
+    await FirebaseAuth.instance.signOut();
+  }
 }

@@ -70,7 +70,7 @@ class AuthRepoImpl extends AuthRepo {
         password: password,
       );
       var userEntity = await getUserData(uid: user.uid);
-      // await saveUserData(user: userEntity);
+      await saveUserData(user: userEntity);
       return right(userEntity);
     } on CustomExceptions catch (e) {
       return left(ServerFailure(e.message));
@@ -87,6 +87,7 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
+      await saveUserData(user: UserModel.fromFirebaseUser(user));
 
       var userEntity = UserModel.fromFirebaseUser(user);
       var isUserExist = await databaseService.checkIfDataExists(
@@ -165,5 +166,10 @@ class AuthRepoImpl extends AuthRepo {
   Future saveUserData({required UserEntity user}) async {
     var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
     await Prefs.setString(kUserData, jsonData);
+  }
+
+  @override
+  Future<void> signOut() {
+    return firebaseAuthService.signOut();
   }
 }
