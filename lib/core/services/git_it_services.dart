@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/repos/products_repo/product_repo.dart';
+import 'package:e_commerce_app/core/repos/products_repo/product_repo_impl.dart';
 import 'package:e_commerce_app/core/services/database_service.dart';
 import 'package:e_commerce_app/core/services/firbase_auth_service.dart';
 import 'package:e_commerce_app/core/services/firestore_service.dart';
@@ -15,5 +17,8 @@ void setup() async {
       firebaseAuthService: gitIt<FirebaseAuthService>(),
       databaseService: gitIt<DatabaseService>(),
     ),
+  );
+  gitIt.registerSingleton<ProductRepo>(
+    ProductRepoImpl(databaseService: gitIt<DatabaseService>()),
   );
 }

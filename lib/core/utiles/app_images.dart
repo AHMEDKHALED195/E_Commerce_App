@@ -2,9 +2,13 @@
 class Assets {
   Assets._();
   
+  /// Assets for imagesAppIcon
+  /// assets/images/appIcon.png
+  static const String imagesAppIcon = "assets/images/appIcon.png";
+
   /// Assets for imagesAppleIcon
-  /// assets/images/appleIcon.svg
-  static const String imagesAppleIcon = "assets/images/appleIcon.svg";
+  /// assets/images/appleIcon.png
+  static const String imagesAppleIcon = "assets/images/appleIcon.png";
 
   /// Assets for imagesCheck
   /// assets/images/Check.svg
@@ -17,6 +21,10 @@ class Assets {
   /// Assets for imagesFeaturedItemBackground
   /// assets/images/featured_item_background.svg
   static const String imagesFeaturedItemBackground = "assets/images/featured_item_background.svg";
+
+  /// Assets for imagesFilter2
+  /// assets/images/filter2.svg
+  static const String imagesFilter2 = "assets/images/filter2.svg";
 
   /// Assets for imagesGoogleIcons
   /// assets/images/googleIcons.svg

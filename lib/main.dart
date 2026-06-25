@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/helper_functions/on_generate_rout.dart';
+import 'package:e_commerce_app/core/repos/products_repo/product_repo.dart';
 import 'package:e_commerce_app/core/services/custom_bloc_observe.dart';
 import 'package:e_commerce_app/core/services/git_it_services.dart';
 import 'package:e_commerce_app/core/services/shared_prefrences_singelton.dart';
@@ -17,6 +18,7 @@ void main() async {
   Bloc.observer = CustomBlocObserver();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Prefs.init();
+  // await addProduct();
   setup();
   runApp(const FruitHup());
 }

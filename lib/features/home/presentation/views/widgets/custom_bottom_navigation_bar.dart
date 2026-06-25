@@ -2,16 +2,15 @@ import 'package:e_commerce_app/features/home/domain/entities/bottom_navigation_b
 import 'package:e_commerce_app/features/home/presentation/views/widgets/navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 
-class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
+class CustomBottomNavigationBar extends StatelessWidget {
+  final int currentIndex;
+  final ValueChanged<int> onItemTapped;
 
-  @override
-  State<CustomBottomNavigationBar> createState() =>
-      _CustomBottomNavigationBarState();
-}
-
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int currentIndex = 0;
+  const CustomBottomNavigationBar({
+    super.key,
+    required this.currentIndex,
+    required this.onItemTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         boxShadow: const [
           BoxShadow(
             color: Color(0x19000000),
-            spreadRadius: 0,
             blurRadius: 25,
             offset: Offset(0, -2),
           ),
@@ -39,7 +37,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: [
           ...bottomNavigationBarItems.asMap().entries.map(
             (entry) => GestureDetector(
-              onTap: () => setState(() => currentIndex = entry.key),
+              onTap: () => onItemTapped(entry.key),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 transitionBuilder: (child, animation) => ScaleTransition(

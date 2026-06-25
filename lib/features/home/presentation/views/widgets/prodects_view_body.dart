@@ -1,26 +1,26 @@
 import 'package:e_commerce_app/core/cubits/products_cubit/product_cubit_.dart';
-import 'package:e_commerce_app/features/home/presentation/views/widgets/besr_sellind_header.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/best_selling_grid_view_block_builder.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/custom_home_app_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/views/widgets/featured_list.dart';
+import 'package:e_commerce_app/features/home/presentation/views/widgets/product_view_header.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeViewBody extends StatefulWidget {
-  const HomeViewBody({super.key});
+class ProductsViewBody extends StatefulWidget {
+  const ProductsViewBody({super.key});
 
   @override
-  State<HomeViewBody> createState() => _HomeViewBodyState();
+  State<ProductsViewBody> createState() => _ProductsViewBodyState();
 }
 
-class _HomeViewBodyState extends State<HomeViewBody> {
+class _ProductsViewBodyState extends State<ProductsViewBody> {
   @override
-  void initState() {
+  initState() {
     context.read<ProductCubit>().getProducts();
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -35,11 +35,12 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   CustomHomeAppBar(),
                   SizedBox(height: 16),
                   SearchTextField(),
+
                   SizedBox(height: 12),
-                  FeaturedList(),
-                  SizedBox(height: 12),
-                  BestSellingHeader(),
-                  SizedBox(height: 12),
+                  ProductViewHeader(
+                    productsLenght: context.read<ProductCubit>().productLength,
+                  ),
+                  SizedBox(height: 8),
                 ],
               ),
             ),
