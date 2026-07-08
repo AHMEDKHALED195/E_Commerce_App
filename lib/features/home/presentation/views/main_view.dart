@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/home/presentation/views/cart_view.dart';
 import 'package:e_commerce_app/features/home/presentation/views/products_view.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/home_view.dart';
@@ -15,7 +16,7 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int currentIndex = 0;
 
-  final pages = const [HomeView(), ProductsView()];
+  final pages = const [HomeView(), ProductsView(), CartView()];
 
   @override
   Widget build(BuildContext context) {

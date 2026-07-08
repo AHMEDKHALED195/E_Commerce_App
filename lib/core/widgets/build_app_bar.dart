@@ -2,12 +2,16 @@ import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
 import 'package:e_commerce_app/core/widgets/notification_widget.dart';
 import 'package:flutter/material.dart';
 
-AppBar buildAppBar(BuildContext context, {required String title}) {
+AppBar buildAppBar(
+  BuildContext context, {
+  required String title,
+  bool showNotificationIcon = true,
+}) {
   return AppBar(
     actions: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: NotificationWidget(),
+        child: showNotificationIcon ? NotificationWidget() : SizedBox.shrink(),
       ),
     ],
     backgroundColor: Colors.transparent,
