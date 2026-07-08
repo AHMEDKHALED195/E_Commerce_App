@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/core/cubits/products_cubit/product_cubit_.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/besr_sellind_header.dart';
-import 'package:e_commerce_app/features/home/presentation/views/widgets/best_selling_grid_view_block_builder.dart';
+import 'package:e_commerce_app/features/home/presentation/views/widgets/products_grid_view_block_builder.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/custom_home_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/featured_list.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/search_text_field.dart';
@@ -46,7 +46,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: BestSellingGridViewBlockBuilder(),
+            sliver: ProductsGridViewBlockBuilder(),
           ),
         ],
       ),

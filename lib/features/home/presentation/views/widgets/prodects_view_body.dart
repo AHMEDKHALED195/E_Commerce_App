@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/cubits/products_cubit/product_cubit_.dart';
-import 'package:e_commerce_app/features/home/presentation/views/widgets/best_selling_grid_view_block_builder.dart';
+import 'package:e_commerce_app/core/widgets/build_app_bar.dart';
+import 'package:e_commerce_app/features/home/presentation/views/widgets/products_grid_view_block_builder.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/custom_home_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/product_view_header.dart';
 import 'package:e_commerce_app/features/home/presentation/views/widgets/search_text_field.dart';
@@ -32,7 +33,7 @@ class _ProductsViewBodyState extends State<ProductsViewBody> {
               child: Column(
                 children: [
                   SizedBox(height: 16),
-                  CustomHomeAppBar(),
+                  buildAppBar(context, title: "المنتجات"),
                   SizedBox(height: 16),
                   SearchTextField(),
 
@@ -47,7 +48,7 @@ class _ProductsViewBodyState extends State<ProductsViewBody> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: BestSellingGridViewBlockBuilder(),
+            sliver: ProductsGridViewBlockBuilder(),
           ),
         ],
       ),
