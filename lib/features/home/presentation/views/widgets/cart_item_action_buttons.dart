@@ -1,11 +1,14 @@
 import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
+import 'package:e_commerce_app/features/home/domain/entities/cart_item_entity.dart';
+import 'package:e_commerce_app/features/home/presentation/cubits/cart_cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartItemActionButtons extends StatelessWidget {
-  const CartItemActionButtons({super.key});
+  const CartItemActionButtons({super.key, required this.cartItemEntity});
 
-  // final CartItemEntity cartItemEntity;
+  final CartItemEntity cartItemEntity;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -15,15 +18,15 @@ class CartItemActionButtons extends StatelessWidget {
           icon: Icons.add,
           color: AppColors.primaryColor,
           onPressed: () {
-            // cartItemEntity.increasQuantity();
-            // context.read<CartItemCubit>().updateCartItem(cartItemEntity);
+            cartItemEntity.incrementCount();
+            context.read<CartCubit>().updateCartItem(cartItemEntity);
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            // cartItemEntity.quanitty.toString(),
-            '3',
+            cartItemEntity.count.toString(),
+
             textAlign: TextAlign.center,
             style: TextStyles.bold16,
           ),
@@ -33,12 +36,12 @@ class CartItemActionButtons extends StatelessWidget {
           icon: Icons.remove,
           color: const Color(0xFFF3F5F7),
           onPressed: () {
-            // cartItemEntity.decreasQuantity();
-            // context.read<CartItemCubit>().updateCartItem(cartItemEntity);
+            cartItemEntity.decrementCount();
+            context.read<CartCubit>().updateCartItem(cartItemEntity);
           },
         ),
       ],
-    );
+    ); 
   }
 }
 
