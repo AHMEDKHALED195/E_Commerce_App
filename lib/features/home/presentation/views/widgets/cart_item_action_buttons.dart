@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/utiles/app_colors.dart';
 import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
 import 'package:e_commerce_app/features/home/domain/entities/cart_item_entity.dart';
 import 'package:e_commerce_app/features/home/presentation/cubits/cart_cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/home/presentation/cubits/cart_item_cubit/cart_item_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,7 @@ class CartItemActionButtons extends StatelessWidget {
           color: AppColors.primaryColor,
           onPressed: () {
             cartItemEntity.incrementCount();
-            context.read<CartCubit>().updateCartItem(cartItemEntity);
+            context.read<CartItemCubit>().updateCartItem(cartItemEntity);
           },
         ),
         Padding(
@@ -37,11 +38,11 @@ class CartItemActionButtons extends StatelessWidget {
           color: const Color(0xFFF3F5F7),
           onPressed: () {
             cartItemEntity.decrementCount();
-            context.read<CartCubit>().updateCartItem(cartItemEntity);
+            context.read<CartItemCubit>().updateCartItem(cartItemEntity);
           },
         ),
       ],
-    ); 
+    );
   }
 }
 

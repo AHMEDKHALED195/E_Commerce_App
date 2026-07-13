@@ -8,5 +8,3 @@ final class CartInitial extends CartState {}
 final class CartProductItemAdded extends CartState {}
 
 final class CartProductItemRemoved extends CartState {}
-
-final class CartProductItemUpdated extends CartState {}

@@ -28,11 +28,5 @@ class CartCubit extends Cubit<CartState> {
     emit(CartProductItemRemoved());
   }
 
-  void updateCartItem(CartItemEntity cartItem) {
-    if (cartItem.count <= 0) {
-      removeItemFromCart(cartItem);
-    } else {
-      emit(CartProductItemUpdated());
-    }
-  }
+  
 }
