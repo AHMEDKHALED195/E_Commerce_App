@@ -1,20 +1,21 @@
 import 'package:e_commerce_app/core/utiles/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomFormTextField extends StatelessWidget {
   const CustomFormTextField({
-    this.obscureText = false,
     super.key,
     required this.hintText,
-    required this.keyboardType,
-    this.icon,
+    required this.textInputType,
+    this.suffixIcon,
     this.onSaved,
+    this.obscureText = false,
   });
-  final bool obscureText;
   final String hintText;
-  final TextInputType keyboardType;
-  final Widget? icon;
+  final TextInputType textInputType;
+  final Widget? suffixIcon;
   final void Function(String?)? onSaved;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -26,19 +27,21 @@ class CustomFormTextField extends StatelessWidget {
         }
         return null;
       },
-      keyboardType: keyboardType,
+      keyboardType: textInputType,
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
+        hintStyle: TextStyles.bold13.copyWith(color: const Color(0xFF949D9E)),
         hintText: hintText,
         filled: true,
         fillColor: const Color(0xFFF9FAFA),
-        hintStyle: TextStyles.bold13.copyWith(color: const Color(0xFF949D9E)),
-        border: buildBoarder(),
-        suffixIcon: icon,
+        border: buildBorder(),
+        enabledBorder: buildBorder(),
+        focusedBorder: buildBorder(),
       ),
     );
   }
 
-  OutlineInputBorder buildBoarder() {
+  OutlineInputBorder buildBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(4),
       borderSide: const BorderSide(width: 1, color: Color(0xFFE6E9E9)),

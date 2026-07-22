@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/repos/orders_repo/orders_repo.dart';
+import 'package:e_commerce_app/core/repos/orders_repo/orders_repo_impl.dart';
 import 'package:e_commerce_app/core/repos/products_repo/product_repo.dart';
 import 'package:e_commerce_app/core/repos/products_repo/product_repo_impl.dart';
 import 'package:e_commerce_app/core/services/database_service.dart';
@@ -21,4 +23,5 @@ void setup() async {
   gitIt.registerSingleton<ProductRepo>(
     ProductRepoImpl(databaseService: gitIt<DatabaseService>()),
   );
+  gitIt.registerSingleton<OrdersRepo>(OrdersRepoImpl(gitIt<DatabaseService>()));
 }

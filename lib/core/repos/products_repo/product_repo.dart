@@ -14,11 +14,30 @@ Future<void> addProduct() async {
     'code': 'APL001',
     'description': 'Fresh red apples',
     'price': 70,
-    'imageUrl': 'https://example.com/apple.jpg',
+    'imageUrl':
+        'https://thumbs.dreamstime.com/b/red-apple-isolated-clipping-path-19130134.jpg',
     'isFeatured': true,
     'expirationsMonths': 6,
     'isOrganic': true,
     'numberOfCalories': 52,
+    'unitAmount': 1,
+    'avgRating': 0,
+    'ratingCount': 0,
+    'reviews': [],
+  });
+
+  await FirebaseFirestore.instance.collection('products').add({
+    'name': 'Banana',
+    'code': 'BAN001',
+    'description': 'Fresh yellow bananas',
+    'price': 30,
+
+    'imageUrl':
+        'https://img.magnific.com/free-photo/single-banana-isolated-white-background_839833-17794.jpg?semt=ais_hybrid&w=740&q=80',
+    'isFeatured': false,
+    'expirationsMonths': 3,
+    'isOrganic': false,
+    'numberOfCalories': 89,
     'unitAmount': 1,
     'avgRating': 0,
     'ratingCount': 0,

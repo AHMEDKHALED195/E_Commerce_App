@@ -41,7 +41,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   email = value!;
                 },
                 hintText: 'البريد الإلكتروني',
-                keyboardType: TextInputType.emailAddress,
+                textInputType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
               PasswordField(

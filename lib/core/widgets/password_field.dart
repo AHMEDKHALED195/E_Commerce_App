@@ -16,7 +16,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return CustomFormTextField(
       obscureText: isObscure,
       onSaved: widget.onSaved,
-      icon: GestureDetector(
+      suffixIcon: GestureDetector(
         onTap: () {
           setState(() {
             isObscure = !isObscure;
@@ -27,7 +27,7 @@ class _PasswordFieldState extends State<PasswordField> {
             : Icon(Icons.remove_red_eye, color: Color(0xffC9CECF)),
       ),
       hintText: 'كلمة المرور',
-      keyboardType: TextInputType.visiblePassword,
+      textInputType: TextInputType.visiblePassword,
     );
   }
 }

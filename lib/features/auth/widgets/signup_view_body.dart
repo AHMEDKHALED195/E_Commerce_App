@@ -36,13 +36,13 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               CustomFormTextField(
                 onSaved: (value) => name = value!,
                 hintText: 'الاسم كامل',
-                keyboardType: TextInputType.name,
+                textInputType: TextInputType.name,
               ),
               SizedBox(height: 16),
               CustomFormTextField(
                 onSaved: (value) => email = value!,
                 hintText: 'البريد الإلكتروني',
-                keyboardType: TextInputType.emailAddress,
+                textInputType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
               PasswordField(onSaved: (value) => password = value!),

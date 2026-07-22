@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/widgets/custom_bottun.dart';
+import 'package:e_commerce_app/features/checkout/presentation/views/checkout_view.dart';
 import 'package:e_commerce_app/features/home/presentation/cubits/cart_cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/home/presentation/cubits/cart_item_cubit/cart_item_cubit.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,13 @@ class CustomCartButton extends StatelessWidget {
     return BlocBuilder<CartItemCubit, CartItemState>(
       builder: (context, state) {
         return CustomBottun(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              CheckoutView.routeName,
+              arguments: context.read<CartCubit>().cartEntity,
+            );
+          },
           text:
               'الدفع ${context.watch<CartCubit>().cartEntity.totalPrice} جنية',
         );
