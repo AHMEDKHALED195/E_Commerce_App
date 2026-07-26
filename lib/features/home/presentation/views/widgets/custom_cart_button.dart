@@ -14,11 +14,17 @@ class CustomCartButton extends StatelessWidget {
       builder: (context, state) {
         return CustomBottun(
           onPressed: () {
-            Navigator.pushNamed(
-              context,
-              CheckoutView.routeName,
-              arguments: context.read<CartCubit>().cartEntity,
-            );
+            if (context.read<CartCubit>().cartEntity.items.isNotEmpty) {
+              Navigator.pushNamed(
+                context,
+                CheckoutView.routeName,
+                arguments: context.read<CartCubit>().cartEntity,
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('لا يوجد منتجات في السلة')),
+              );
+            }
           },
           text:
               'الدفع ${context.watch<CartCubit>().cartEntity.totalPrice} جنية',

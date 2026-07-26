@@ -12,11 +12,15 @@ class AddOrderCubitBlocBuilder extends StatelessWidget {
     return BlocConsumer<AddOrderCubit, AddOrderState>(
       listener: (context, state) {
         if (state is AddOrderSuccess) {
-          SnackBar(content: Text('تم اضافة الطلب بنجاح'));
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('تم اضافة الطلب بنجاح')));
         }
 
         if (state is AddOrderFailure) {
-          SnackBar(content: Text(state.errMessage));
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errMessage)));
         }
       },
       builder: (context, state) {

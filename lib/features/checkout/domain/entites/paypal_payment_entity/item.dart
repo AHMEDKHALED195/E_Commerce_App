@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/helper_functions/get_currency.dart';
 import 'package:e_commerce_app/features/home/domain/entities/cart_item_entity.dart';
 
 class ItemEntity {
@@ -20,7 +21,7 @@ class ItemEntity {
       name: itemEntity.productEntity.name,
       quantity: itemEntity.count,
       price: itemEntity.productEntity.price.toString(),
-      // currency: getCurrency(),
+      currency: getCurrency(),
     );
   }
 }

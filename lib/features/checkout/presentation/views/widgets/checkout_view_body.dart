@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/utiles/app_keys.dart';
 import 'package:e_commerce_app/core/widgets/custom_bottun.dart';
 import 'package:e_commerce_app/features/checkout/domain/entites/order_entity.dart';
 import 'package:e_commerce_app/features/checkout/domain/entites/paypal_payment_entity/paypal_payment_entity.dart';
@@ -91,7 +92,14 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
               } else if (currentPageIndex == 1) {
                 _handleAddressValidation();
               } else {
-                _processPayment(context);
+                if (context.read<OrderInputEntity>().payWithCash == true) {
+                  context.read<AddOrderCubit>().addOrder(
+                    order: context.read<OrderInputEntity>(),
+                  );
+                  Navigator.pop(context);
+                } else {
+                  _processPayment(context);
+                }
               }
             },
             text: getNextButtonText(currentPageIndex),
@@ -149,32 +157,36 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
     );
     var addOrderCubit = context.read<AddOrderCubit>();
 
-    // Navigator.of(context).push(
-    // MaterialPageRoute(
-    //   builder: (BuildContext context) => PaypalCheckoutView(
-    //     sandboxMode: true,
-    //     clientId: kPaypalClientId,
-    //     secretKey: kPaypalSecretKey,
-    //     transactions: [paypalPaymentEntity.toJson()],
-    //     note: "Contact us for any questions on your order.",
-    //     onSuccess: (Map params) async {
-    //       Navigator.pop(context);
-    //       addOrderCubit.addOrder(order: orderEntity);
-    //     },
-    //     onError: (error) {
-    //       Navigator.pop(context);
-    //       log(error.toString());
-    //       ScaffoldMessenger.of(
-    //         context,
-    //       ).showSnackBar(SnackBar(content: Text('حدث خطأ في عملية الدفع')));
-    //     },
-    //     onCancel: () {
-    //       ScaffoldMessenger.of(
-    //         context,
-    //       ).showSnackBar(SnackBar(content: Text('تم إلغاء عملية الدفع')));
-    //     },
-    //   ),
-    //),
-    // );
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => PaypalCheckoutView(
+          sandboxMode: true,
+          clientId: kPaypalClientId,
+          secretKey: kPaypalSecretKey,
+          transactions: [paypalPaymentEntity.toJson()],
+          note: "Contact us for any questions on your order.",
+          onSuccess: (Map params) async {
+            Navigator.pop(context);
+            log('onSuccess: $params');
+            // ScaffoldMessenger.of(
+            //   context,
+            // ).showSnackBar(SnackBar(content: Text('تم الدفع بنجاح')));
+            addOrderCubit.addOrder(order: orderEntity);
+          },
+          onError: (error) {
+            Navigator.pop(context);
+            log(error.toString());
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('حدث خطأ في عملية الدفع')));
+          },
+          onCancel: () {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('تم إلغاء عملية الدفع')));
+          },
+        ),
+      ),
+    );
   }
 }
