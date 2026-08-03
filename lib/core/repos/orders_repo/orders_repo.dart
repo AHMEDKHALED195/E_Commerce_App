@@ -5,4 +5,8 @@ import '../../errors/failures.dart';
 
 abstract class OrdersRepo {
   Future<Either<Failure, void>> addOrder({required OrderInputEntity order});
+
+  Future<Either<Failure, List<OrderEntity>>> getUserOrders({
+    required String uId,
+  });
 }

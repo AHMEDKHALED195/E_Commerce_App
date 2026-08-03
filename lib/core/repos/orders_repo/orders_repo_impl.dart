@@ -26,4 +26,27 @@ class OrdersRepoImpl implements OrdersRepo {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<OrderEntity>>> getUserOrders({
+    required String uId,
+  }) async {
+    try {
+      var data = await dataBaseService.getData(
+        path: BackendEndpoint.addOrder,
+        query: {'whereField': 'uId', 'whereValue': uId},
+      );
+
+      var orders = (data as List)
+          .map((e) => OrderModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      // الأحدث الأول
+      orders.sort((a, b) => b.date.compareTo(a.date));
+
+      return Right(orders.map((e) => e.toEntity()).toList());
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -1,9 +1,12 @@
+import 'package:e_commerce_app/core/cubits/local_cubit.dart';
+
+import 'package:e_commerce_app/core/cubits/theme_cubit.dart';
+
 import 'package:e_commerce_app/core/helper_functions/on_generate_rout.dart';
-import 'package:e_commerce_app/core/repos/products_repo/product_repo.dart';
 import 'package:e_commerce_app/core/services/custom_bloc_observe.dart';
 import 'package:e_commerce_app/core/services/git_it_services.dart';
 import 'package:e_commerce_app/core/services/shared_prefrences_singelton.dart';
-import 'package:e_commerce_app/core/utiles/app_colors.dart';
+import 'package:e_commerce_app/core/utiles/app_themes.dart';
 import 'package:e_commerce_app/features/splash/presentation/views/splash_view.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:e_commerce_app/generated/l10n.dart';
@@ -28,23 +31,36 @@ class FruitHup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Cairo',
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-      ),
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => LocaleCubit()),
       ],
-      supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale('ar'),
-      title: 'FruitHup',
-      onGenerateRoute: onGenerateRoute,
-      initialRoute: SplashView.routeName,
-      debugShowCheckedModeBanner: false,
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return BlocBuilder<LocaleCubit, Locale>(
+            builder: (context, locale) {
+              return MaterialApp(
+                theme: AppThemes.lightTheme,
+                darkTheme: AppThemes.darkTheme,
+                themeMode: themeMode,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                locale: locale,
+                title: 'FruitHup',
+                onGenerateRoute: onGenerateRoute,
+                initialRoute: SplashView.routeName,
+                debugShowCheckedModeBanner: false,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

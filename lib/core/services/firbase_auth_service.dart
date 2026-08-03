@@ -33,7 +33,7 @@ class FirebaseAuthService {
         throw CustomExceptions(message: 'تاكد من اتصالك بالانترنت.');
       } else {
         throw CustomExceptions(
-          message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+          message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
         );
       }
     } catch (e) {
@@ -42,7 +42,7 @@ class FirebaseAuthService {
       );
 
       throw CustomExceptions(
-        message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
       );
     }
   }
@@ -137,6 +137,52 @@ class FirebaseAuthService {
 
   bool isUserLoggedIn() {
     return FirebaseAuth.instance.currentUser != null;
+  }
+
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      var user = FirebaseAuth.instance.currentUser;
+      if (user == null || user.email == null) {
+        throw CustomExceptions(message: 'لم يتم العثور على المستخدم.');
+      }
+
+      var credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      // لازم نعمل reauthenticate الأول عشان فايربيز يسمح بتغيير كلمة المرور
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      log(
+        "Exception in FirebaseAuthService.changePassword: ${e.toString()} and code is ${e.code}",
+      );
+      if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        throw CustomExceptions(message: 'كلمة المرور الحالية غير صحيحة.');
+      } else if (e.code == 'weak-password') {
+        throw CustomExceptions(message: 'كلمة المرور الجديدة ضعيفة جداً.');
+      } else if (e.code == 'requires-recent-login') {
+        throw CustomExceptions(
+          message: 'الرجاء تسجيل الدخول مرة اخرى قبل تغيير كلمة المرور.',
+        );
+      } else if (e.code == 'network-request-failed') {
+        throw CustomExceptions(message: 'تاكد من اتصالك بالانترنت.');
+      } else {
+        throw CustomExceptions(
+          message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+        );
+      }
+    } catch (e) {
+      log("Exception in FirebaseAuthService.changePassword: ${e.toString()}");
+      if (e is CustomExceptions) rethrow;
+      throw CustomExceptions(
+        message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.',
+      );
+    }
   }
 
   Future<void> signOut() async {

@@ -12,6 +12,7 @@ class MainViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('pages.length = ${pages.length}, currentIndex = $currentIndex');
     return IndexedStack(index: currentIndex, children: pages);
   }
 }

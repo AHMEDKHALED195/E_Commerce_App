@@ -28,6 +28,13 @@ class FireStoreService implements DatabaseService {
     } else {
       Query<Map<String, dynamic>> data = firestore.collection(path);
       if (query != null) {
+        // فلترة بسيطة بحقل واحد (مستخدمة لجلب أوردرات مستخدم معين)
+        if (query['whereField'] != null && query['whereValue'] != null) {
+          data = data.where(
+            query['whereField'],
+            isEqualTo: query['whereValue'],
+          );
+        }
         if (query['orderBy'] != null) {
           var orderByField = query['orderBy'];
           var descending = query['descending'];

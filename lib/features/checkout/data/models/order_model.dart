@@ -11,6 +11,9 @@ class OrderModel {
   final List<OrderProductModel> orderProducts;
   final String paymentMethod;
   final String orderId;
+  final String status;
+  final String date;
+
   OrderModel({
     required this.totalPrice,
     required this.uId,
@@ -18,7 +21,9 @@ class OrderModel {
     required this.shippingAddressModel,
     required this.orderProducts,
     required this.paymentMethod,
-  });
+    this.status = 'pending',
+    String? date,
+  }) : date = date ?? DateTime.now().toString();
 
   factory OrderModel.fromEntity(OrderInputEntity orderEntity) {
     return OrderModel(
@@ -34,16 +39,46 @@ class OrderModel {
       paymentMethod: orderEntity.payWithCash! ? 'Cash' : 'Paypal',
     );
   }
+
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
+      orderId: json['orderId'] ?? '',
+      totalPrice: (json['totalPrice'] as num?)?.toDouble() ?? 0,
+      uId: json['uId'] ?? '',
+      status: json['status'] ?? 'pending',
+      date: json['date'] ?? DateTime.now().toString(),
+      shippingAddressModel: ShippingAddressModel.fromJson(
+        (json['shippingAddressModel'] ?? {}) as Map<String, dynamic>,
+      ),
+      orderProducts: ((json['orderProducts'] ?? []) as List)
+          .map((e) => OrderProductModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      paymentMethod: json['paymentMethod'] ?? 'Cash',
+    );
+  }
+
   toJson() => {
     'orderId': orderId,
     'totalPrice': totalPrice,
     'uId': uId,
-    'status': 'pending',
-    'date': DateTime.now().toString(),
+    'status': status,
+    'date': date,
     'shippingAddressModel': shippingAddressModel.toJson(),
     'orderProducts': orderProducts.map((e) => e.toJson()).toList(),
     'paymentMethod': paymentMethod,
   };
+
+  OrderEntity toEntity() {
+    return OrderEntity(
+      orderId: orderId,
+      totalPrice: totalPrice,
+      status: status,
+      date: date,
+      paymentMethod: paymentMethod,
+      shippingAddressModel: shippingAddressModel,
+      orderProducts: orderProducts,
+    );
+  }
 }
 
 // payment method

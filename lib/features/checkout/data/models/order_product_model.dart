@@ -27,6 +27,16 @@ class OrderProductModel {
     );
   }
 
+  factory OrderProductModel.fromJson(Map<String, dynamic> json) {
+    return OrderProductModel(
+      name: json['name'] ?? '',
+      code: json['code'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      quantity: json['quantity'] ?? 1,
+    );
+  }
+
   toJson() {
     return {
       'name': name,

@@ -49,7 +49,7 @@ class AuthRepoImpl extends AuthRepo {
       log(
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
   }
 
@@ -78,7 +78,7 @@ class AuthRepoImpl extends AuthRepo {
       log(
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
   }
 
@@ -105,7 +105,7 @@ class AuthRepoImpl extends AuthRepo {
       log(
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
   }
 
@@ -122,27 +122,9 @@ class AuthRepoImpl extends AuthRepo {
       log(
         'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
       );
-      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
     }
   }
-
-  // @override
-  // Future<Either<Failure, UserEntity>> signInWithApple() async {
-  //   User? user;
-  //   try {
-  //     user = await firebaseAuthService.signInWithApple();
-
-  //     var userEntity = UserModel.fromFirebaseUser(user);
-  //     await addUserData(user: userEntity);
-  //     return right(userEntity);
-  //   } catch (e) {
-  //     await deleteUser(user);
-  //     log(
-  //       'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
-  //     );
-  //     return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
-  //   }
-  // }
 
   @override
   Future addUserData({required UserEntity user}) async {
@@ -171,5 +153,24 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<void> signOut() {
     return firebaseAuthService.signOut();
+  }
+
+  @override
+  Future<Either<Failure, void>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      await firebaseAuthService.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+      return right(null);
+    } on CustomExceptions catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      log('Exception in AuthRepoImpl.changePassword: ${e.toString()}');
+      return left(ServerFailure('حدث خطأ ما. الرجاء المحاولة مرة اخرى.'));
+    }
   }
 }
